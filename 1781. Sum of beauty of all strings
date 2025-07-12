@@ -1,0 +1,43 @@
+class Solution {
+public:
+    void expand(string s, int low, int high, int &sum){
+        int n=s.length();
+        unordered_map<char,int>mpp;
+        while(low>=0 && high<n){
+            if(low==high){
+                mpp[s[low]]++;
+            }
+            else{
+                mpp[s[low]]++;
+                mpp[s[high]]++;
+            }
+            int max=INT_MIN;
+            int min=INT_MAX;
+            for(auto i:mpp){
+                if(i.second > max) max=i.second;
+                if(i.second <min)   min=i.second;
+            }
+
+            int beauty=max-min;
+            sum+=beauty;
+
+            low--;
+            high++;
+        }
+    }
+    int beautySum(string s) {
+        int n = s.length();
+        int sum=0;
+        for(int i=0;i<n;i++){
+            int low=i;
+            int high=i;
+            
+            expand(s,low,high,sum);
+
+            low=i;
+            high=i+1;
+            expand(s,low,high,sum);
+        }
+        return sum;
+    }
+};
