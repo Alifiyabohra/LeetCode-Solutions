@@ -1,0 +1,41 @@
+//brute force approach-->
+//In this loop takes O(n) time and the max_element function takes O(n) time, So Time Complexity becomes O(n^2)
+//fails for large input
+    int maxProfit(vector<int>& prices){
+        int buy,sell=0;
+        int profit;
+        int maxProfit=0;
+        int n=prices.size();
+        for(int i=0;i<n-1;i++){
+            buy=prices[i];
+            
+            sell=*max_element(prices.begin()+i+1,prices.end());
+           
+            profit=sell-buy;
+
+            maxProfit=max(maxProfit,profit);
+        }
+            return maxProfit;
+
+    }
+
+//OPtimized Approach-->  
+//Instead of buying on ith day and finding max element, we can sell on ith day and keep track of min element so far, as for finding min element we don't need to use min_element function becoz while traversing we can simply keep track of min element, so this approach will only take O(n) time.
+int maxProfit(vector<int>& prices){
+        int buy=INT_MAX,sell;
+        int profit=0;
+
+        int n=prices.size();
+
+        for(int i=0;i<n;i++){
+            buy=min(buy,prices[i]);
+            sell=prices[i];
+
+            profit=max(profit,sell-buy);
+           
+        }
+
+        return profit;
+    }
+
+};
