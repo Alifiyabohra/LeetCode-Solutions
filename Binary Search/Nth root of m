@@ -1,0 +1,28 @@
+link-->https://www.geeksforgeeks.org/problems/find-nth-root-of-m5843/1
+    int nthRoot(int n, int m) {
+        // Code here
+        int s=0;
+        int e=m;
+        int ans =-1;
+        while(s<=e){
+            long long int mid=s+(e-s)/2;
+            long long int product=1;
+            int num=n;
+            while(num){
+                product*=mid;
+                num--;
+            }
+            if(product==m){
+                ans=mid;
+                return mid;
+            }
+            else if(product<m){
+                ans=mid;
+                s=mid+1;
+            }
+            else{
+                e=mid-1;
+            }
+        }
+        return ans;
+    }
