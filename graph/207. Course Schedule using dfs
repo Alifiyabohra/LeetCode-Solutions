@@ -1,0 +1,40 @@
+ bool DetectCycleUsingdfs(int node,int V,vector<int>& visited,vector<int>& pathVisited,vector<vector<int>>& adj){
+        visited[node]=1;
+        pathVisited[node]=1;
+
+        for(int it:adj[node]){
+            if(!visited[it]){
+                if(DetectCycleUsingdfs(it,V,visited,pathVisited,adj)==true){
+                    return true;
+                }
+            }
+            else if(pathVisited[it]){
+                return true;
+            }
+        }
+
+        pathVisited[node]=0;
+        return false;
+    }
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        int V=numCourses;
+        vector<vector<int>>adj(V);
+        for(auto edge:prerequisites){
+            int u=edge[0];
+            int v=edge[1];
+
+            adj[v].push_back(u);
+        }
+
+        vector<int>visited(V,0);
+        vector<int>pathVisited(V,0);
+        for(int i=0;i<V;i++){
+            if(!visited[i]){
+                if(DetectCycleUsingdfs(i,V,visited,pathVisited,adj)==true){
+                    //if there is cycle then return false as not possible to finish all courses in a sequence
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
