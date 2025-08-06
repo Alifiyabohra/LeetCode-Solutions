@@ -1,0 +1,43 @@
+//Brute force approach
+// Generate all substrings then check if it is a valid substring or not if yes then update count variable
+int lengthOfLongestSubstring(string s) {
+        int n=s.length();
+        int max_count=0;
+        for(int i=0;i<n;i++){
+            int cnt=1;
+            unordered_map<char,int>mpp;
+            mpp[s[i]]=1;
+            for(int j=i+1;j<n;j++){
+                if(mpp[s[j]]==0){
+                    cnt++;
+                    mpp[s[j]]=1;
+                }
+                else{
+                    break;
+                }
+            }
+            max_count=max(cnt,max_count);
+        }
+        return max_count;
+    }
+//Optimized Approach
+  int lengthOfLongestSubstring(string s){
+        int r=0;
+        int l=0;
+        int length=0;
+        int max_length=0;
+        unordered_map<char,int>mpp;
+        while(r<s.size()){
+            if(mpp.find(s[r])!=mpp.end() && mpp[s[r]]>=l){
+                l=mpp[s[r]]+1;
+                mpp[s[r]]=r;
+            }
+            else {
+                length=r-l+1;
+                max_length=max(length,max_length);
+                mpp[s[r]]=r;
+            }
+            r++;
+        }
+        return max_length;
+    }
