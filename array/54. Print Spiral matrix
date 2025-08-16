@@ -1,0 +1,48 @@
+vector<int> spiralOrder(vector<vector<int>>& matrix){
+        int m=matrix.size();
+        int n=matrix[0].size();
+        int top=0;
+        int bottom=m-1;
+        int left=0;
+        int right=n-1;
+        vector<int>ans;
+        while(top<=bottom && left<=right){
+            //printing top elements from left to right
+            //row will be top
+            for(int j=left;j<=right;j++){
+                int ele=matrix[top][j];
+                ans.push_back(ele);
+            }
+            top++;
+            //printing right elements from top to bottom
+            //col will be right
+            for(int i=top;i<=bottom;i++){
+                int ele=matrix[i][right];
+                ans.push_back(ele);
+            }
+            right--;
+            //printing bottom elements from right to left
+            //row will be bottom
+            // also check if top<=bottom or not, becoz if we are at middle element of matrix, and if that will be already printed by above loops, so will be exceeded so need to check here
+            if(top<=bottom){
+                for(int j=right;j>=left;j--){
+                int ele=matrix[bottom][j];
+                ans.push_back(ele);
+            }
+             bottom--;
+            }
+            
+            //printing left side elements from bottom to top;
+            //col will be left
+            //check this if condition becoz if midlle element is printed by above loop then right would have been updated, so we don't print unneccessary elements
+            if(left<=right){
+                for(int i=bottom;i>=top;i--){
+                int ele=matrix[i][left];
+                ans.push_back(ele);
+            }
+            left++;
+            }
+            
+        }
+        return ans;
+    }
