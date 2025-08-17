@@ -1,0 +1,46 @@
+//using memo
+int func(int row,int col,vector<vector<int>>&ans){
+        //base case
+        if(col==0 || col==row){
+            ans[row][col]=1;
+            return 1;
+        }
+        if(col<0 || row<0 || col>row){
+            return 0;
+        }
+        if(ans[row][col]!=-1){
+            return ans[row][col];
+        }
+        //task for each cell
+        
+        int value=func(row-1,col-1,ans)+func(row-1,col,ans);
+        ans[row][col]=value;
+
+        return value;
+    }
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>>ans(numRows,vector<int>(numRows,-1));
+        for(int i=0;i<numRows;i++){
+            ans[i].resize(i+1);
+            for(int j=0;j<=i;j++){
+                ans[i][i]=func(i,j,ans);
+            }
+        }
+    
+        return ans;
+    } 
+
+
+
+    //using tabulation
+    vector<vector<int>> generate(int n) {
+        vector<vector<int>> arr(n);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<=i;j++){
+
+                if(j==0 || j== i) arr[i].push_back(1);
+                 else arr[i].push_back(arr[i-1][j-1] + arr[i-1][j]);
+            }
+        }
+        return arr;
+    }
