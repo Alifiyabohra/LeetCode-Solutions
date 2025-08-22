@@ -1,0 +1,102 @@
+int solveRec(int row, int col,vector<vector<int>>& grid){
+        if(row==0 && col ==0){
+            return grid[0][0];
+        }
+
+        int up=INT_MAX;
+        int left=INT_MAX;
+
+        if(row-1>=0)
+        up=solveRec(row-1,col,grid);
+        if(col-1>=0)
+        left=solveRec(row,col-1,grid);
+
+        int ans=grid[row][col]+min(up,left);
+        return ans;
+    }
+    int solveMemo(int row, int col,vector<vector<int>>& grid,vector<vector<int>>& dp){
+        if(row==0 && col ==0){
+            return grid[0][0];
+        }
+        if(dp[row][col]!=-1){
+            return dp[row][col];
+        }
+        int up=INT_MAX;
+        int left=INT_MAX;
+
+        if(row-1>=0)
+        up=solveMemo(row-1,col,grid,dp);
+        if(col-1>=0)
+        left=solveMemo(row,col-1,grid,dp);
+
+        dp[row][col]=grid[row][col]+min(up,left);
+        return dp[row][col];
+    }
+    int solveTab(vector<vector<int>>& grid){
+        int m=grid.size();
+        int n=grid[0].size();
+        vector<vector<int>>dp(m,vector<int>(n,0));
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0){
+                    dp[0][0]=grid[0][0];
+                }
+                else{
+                    int up=INT_MAX;
+                    int left=INT_MAX;
+
+                    if(i-1>=0){
+                        up=dp[i-1][j];
+                    }
+                    if(j-1>=0){
+                        left=dp[i][j-1];
+                    }
+                    dp[i][j]=grid[i][j]+min(up,left);
+                }
+            }
+        }
+        return dp[m-1][n-1];
+    }
+    int solveSO(vector<vector<int>>& grid){
+        int m=grid.size();
+        int n=grid[0].size();
+        vector<int>prev(n,INT_MAX);
+
+        for(int i=0;i<m;i++){
+            vector<int>temp(n,INT_MAX);
+            for(int j=0;j<n;j++){
+                if(i==0 && j==0){
+                    temp[0]=grid[0][0];
+                }
+                else{
+                    int up=INT_MAX;
+                    int left=INT_MAX;
+
+                    if(i-1>=0){
+                        up=prev[j];
+                    }
+                    if(j-1>=0){
+                        left=temp[j-1];
+                    }
+                    temp[j]=grid[i][j]+min(up,left);
+                }
+            }
+            prev=temp;
+        }
+        return prev[n-1];
+    }
+    int minPathSum(vector<vector<int>>& grid) {
+        
+        int m=grid.size();
+        int n=grid[0].size();
+
+       //return solveRec(m-1,n-1,grid);
+       
+          //step1- create dp array, analyze index and find size
+          //vector<vector<int>>dp(m,vector<int>(n,-1));
+          //return solveMemo(m-1,n-1,grid,dp);
+          //return solveTab(grid);
+         return solveSO(grid);
+
+    }
